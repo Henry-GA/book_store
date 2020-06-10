@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    {{ book.title }}
+{% endblock %}
+
+{% block content %}
+    <h2>{{ book.title }}</h2>
+    <div class="row">
+        <div class="col-6 "><img class="img-fluid" src="/{{ book.image }}" alt="{{ book.title }} book cover"></div>
+        <div class="col-4">
+            <div> Author: {{ book.author }} </div>
+            <div>Genre: {{ book.genre }} </div>
+            <p>{{ book.description }}</p>
+            {{ book.pub_date }}
+        </div>
+    </div>
+{% endblock %}

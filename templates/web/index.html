@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}
+    Index
+{% endblock %}
+
+{% block content %}
+    {% for book in books %}
+        <div class="card" style="width: 18rem;">
+            <img src="{{ book.image }}" class="card-img-top" alt="{{ book.title }} book cover">
+            <div class="card-body">
+                <h5 class="card-title">{{ book.title }}</h5>
+                <p class="card-text">{{ book.description }}</p>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
