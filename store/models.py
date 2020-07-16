@@ -19,5 +19,5 @@ class Book(models.Model):
 class Comments(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    comment = HTMLField('Comment')
+    comment = models.TextField(max_length=280)
     pub_date = models.DateTimeField(default=now)
