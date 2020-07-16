@@ -18,4 +18,20 @@
             <p>{{ book.pub_date }}</p>
         </div>
     </div>
+    <div class="media">
+        <div class="media-body">
+            {% for comment in comments %}
+                <h5 class="mt-0">{{ comment.user }}</h5>
+                <p>
+                    {{ comment.comment }}
+                </p>
+            {% endfor %}
+        </div>
+    </div>
+
+    {{ comment }}
+    {% if user.is_authenticated %}
+        {% load crispy_forms_tags %}
+        {% crispy form form.helper %}
+    {% endif %}
 {% endblock %}
