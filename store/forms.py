@@ -33,6 +33,7 @@ class CommentsForm(ModelForm):
                 Submit('submit', 'Submit', css_class='btn btn-secondary active')
             )
         )
+        self.helper.form_show_errors = False
 
     class Meta:
         model = Comments

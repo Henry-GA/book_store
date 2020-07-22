@@ -21,7 +21,8 @@
     <div class="media">
         <div class="media-body">
             {% for comment in comments %}
-                <h5 class="mt-0">{{ comment.user }}</h5>
+                <div class="mt-0 font-weight-bolder">{{ comment.user }}</div>
+                <small class="font-weight-lighter"> {{ comment.pub_date }}</small>
                 <p>
                     {{ comment.comment }}
                 </p>
