@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth import views as auth_views
 from store import views
 
 urlpatterns = [
@@ -24,4 +25,7 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('account/', include('django.contrib.auth.urls')),
     path('tinymce/', include('tinymce.urls')),
+    path('add_to_cart/<int:id>/<int:quantity>', views.add_to_cart, name='add_to_cart'),
+    path('cart/', views.cart, name='cart')
+
 ]

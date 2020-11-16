@@ -1,8 +1,9 @@
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
-from .forms import SignUpForm, CommentsForm
-from .models import Book, Comments
+from .forms import SignUpForm, CommentsForm, CartForm
+from .models import Book, Comments, Cart
 
 
 # Create your views here.
@@ -18,6 +19,7 @@ def detail(request, id):
     user = request.user
     comments = Comments.objects.filter(book_id=id)
     form = CommentsForm(request.POST)
+    cart_quantity = CartForm(request.GET)
     if request.method == 'POST':
         form = CommentsForm(request.POST)
         if form.is_valid():
@@ -25,14 +27,23 @@ def detail(request, id):
             comment.user = user
             comment.book = book
             comment.save()
-            return redirect('index')
+            form = CommentsForm()
         else:
             form = CommentsForm()
-
+    if request.method == 'GET':
+        if form.is_valid():
+            cart_quantity = CartForm(request.GET.dict())
+            quantity = cart_quantity.data.__len__()
+            context = {
+                'book': book.id,
+                'quantity': quantity
+            }
+            return redirect(add_to_cart, context)
     context = {
         'book': book,
         'form': form,
         'comments': comments,
+        'cart_quantity': cart_quantity
     }
     return render(request, 'web/detail.html', context)
 
@@ -49,4 +60,23 @@ def signup(request):
             return redirect('index')
     else:
         form = SignUpForm()
-        return render(request, 'registration/signup.html', {'form': form})
+        context = {
+            'form': form
+        }
+        return render(request, 'registration/signup.html', context)
+
+
+def cart(request):
+    user = request.user.id
+    cart_items = Cart.objects.filter(user_id=user)
+    context = {
+        'cart': cart_items
+    }
+    return render(request, 'web/cart.html', context)
+
+
+@login_required(login_url='/account/login/')
+def add_to_cart(request, id, quantity):
+    user = request.user
+    Cart.objects.create(user_id=user.id, book_id=id, quantity=quantity)
+    return redirect('cart')

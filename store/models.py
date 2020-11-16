@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils.timezone import now
 from django.contrib.auth.models import User
-from tinymce.models import HTMLField
 
 
 # Create your models here.
@@ -21,3 +20,9 @@ class Comments(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     comment = models.TextField(max_length=280)
     pub_date = models.DateTimeField(default=now)
+
+
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)

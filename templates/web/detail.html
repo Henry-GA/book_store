@@ -7,8 +7,9 @@
 {% block content %}
     <h2>{{ book.title }}</h2>
     <div class="row">
-        <div class="col-4 "><img class="img-fluid" src="/{{ book.image }}" alt="{{ book.title }} book cover"></div>
-        <div class="col-8">
+        <div class="col-auto col-lg-6 img-fluid "><img class="img-fluid" src="/{{ book.image }}"
+                                                       alt="{{ book.title }} book cover"></div>
+        <div class="col-auto">
             <div><b>Author: </b> {{ book.author }}</div>
             <div><b>Genre: </b> {{ book.genre }}</div>
             <br>
@@ -16,6 +17,10 @@
             <p>{{ book.price }}</p>
             <p>{{ book.pages }}</p>
             <p>{{ book.pub_date }}</p>
+            {% load crispy_forms_tags %}
+            {% crispy cart_quantity cart_quantity.helper %}
+            <!--<a href="{% url 'add_to_cart' id=book.id quantity=1 %}" class="btn btn-primary btn-lg active">Add To
+                Cart</a>-->
         </div>
     </div>
     <div class="media">

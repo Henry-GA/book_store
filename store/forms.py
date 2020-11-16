@@ -5,8 +5,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
-
-from store.models import Comments
+from store.models import Comments, Cart
 
 
 class SignUpForm(UserCreationForm):
@@ -38,3 +37,24 @@ class CommentsForm(ModelForm):
     class Meta:
         model = Comments
         fields = ('comment',)
+
+
+class CartForm(ModelForm):
+    quantity = forms.IntegerField()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = 'form-group'
+        self.helper.form_method = 'get'
+        self.helper.layout = Layout(
+            Field('quantity', css_class='form-control'),
+            ButtonHolder(
+                Submit('submit', 'Submit', css_class='btn btn-secondary active')
+            )
+        )
+        self.helper.form_show_errors = False
+
+    class Meta:
+        model = Cart
+        fields = ('quantity',)
